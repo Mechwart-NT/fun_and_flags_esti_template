@@ -8,6 +8,8 @@ function App() {
   const regions = ["All","Africa", "Americas","Asia","Europe","Oceania","Polar"]
   const [selectedRegion, setSelectedRegion] = useState(regions[0])
 
+  const [searchText, setSearchText] = useState("")
+
   useEffect(()=>{
     fetch("data.json")
     .then(response => response.json())
@@ -29,18 +31,24 @@ function App() {
     // })
   }
 
+  const filterByText = (li) => {
+    return li.filter(element => element.name.toUpperCase().includes(searchText.toUpperCase()))
+  }
+
   return (
     <>
     <button onClick={()=>setIsDark(prev => !prev)}>
       {isDark ? "SETÉT" : "VILÁGOS"}
     </button>
 
+    <input type="text" value={searchText} onChange={(e)=>setSearchText(e.target.value)} />
+
     <select value={selectedRegion} onChange={(e)=>{ setSelectedRegion(e.target.value) }}>
       {regions.map(regio => <option value={regio}>{regio}</option>)}
     </select>
 
     <section className="cardWrapper">
-      {filterByRegion(countries).map(country => <CountryCard {...country} />)}
+      {filterByText(filterByRegion(countries)).map(country => <CountryCard {...country} />)}
     </section>
     </>
   )
