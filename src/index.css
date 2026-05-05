@@ -52,5 +52,5 @@ body.light{
 
 body.dark{
   background: var(--color-blue-950);
-  color: var(--color-white)
+  color: var(--color-white);
 }
